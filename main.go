@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	// "text/template"
 	"net/http"
 	"strings"
 
@@ -12,15 +11,26 @@ import (
 type grid struct {
 	ID string `json:"id"`
 	Difficulty string `json:"difficulty"`
-	Start [][]int `json:"start"`
-	Solution [][]int `json:"solution"`
+	Start [SUDOKU_HEIGHT][SUDOKU_WIDTH]int `json:"start"`
+	Solution [SUDOKU_HEIGHT][SUDOKU_WIDTH]int `json:"solution"`
 }
+
+type technique struct {
+	ID string `json:"id"`
+	Name string `json:"name"`
+	Steps [][SUDOKU_HEIGHT][SUDOKU_WIDTH]int `json:"steps"`
+}
+
+const SUDOKU_HEIGHT = 9;
+const SUDOKU_WIDTH = 9;
+
+var techniques []technique
 
 var sudoku_grids = []grid{
 	{
 		ID: "1", 
 		Difficulty: "Easy", 
-		Start: [][]int{
+		Start: [SUDOKU_HEIGHT][SUDOKU_WIDTH]int{
 			{0, 3, 0, 7, 0, 6, 0, 8, 0},
 			{0, 0, 6, 3, 0, 0, 2, 0, 7},
 			{0, 0, 8, 0, 0, 0, 6, 0, 3},
@@ -31,7 +41,7 @@ var sudoku_grids = []grid{
 			{5, 8, 0, 0, 3, 0, 0, 2, 9},
 			{0, 0, 0, 2, 8, 0, 5, 0, 0},
 		},
-		Solution: [][]int{
+		Solution: [SUDOKU_HEIGHT][SUDOKU_WIDTH]int{
 			{1, 3, 5, 7, 2, 6, 9, 8, 4},
 			{9, 4, 6, 3, 1, 8, 2, 5, 7},
 			{7, 2, 8, 4, 9, 5, 6, 1, 3},
@@ -46,7 +56,7 @@ var sudoku_grids = []grid{
 	{
 		ID: "2",
 		Difficulty: "Easy",
-		Start: [][]int{
+		Start: [SUDOKU_HEIGHT][SUDOKU_WIDTH]int{
 			{5, 6, 8, 0, 9, 3, 0, 0, 7},
 			{3, 4, 0, 0, 0, 7, 0, 0, 5},
 			{0, 9, 7, 5, 0, 4, 6, 0, 3},
@@ -57,7 +67,7 @@ var sudoku_grids = []grid{
 			{0, 5, 1, 2, 0, 6, 3, 0, 0},
 			{0, 0, 0, 9, 0, 0, 0, 0, 0},
 		},
-		Solution: [][]int{
+		Solution: [SUDOKU_HEIGHT][SUDOKU_WIDTH]int{
 			{5, 6, 8, 1, 9, 3, 4, 2, 7},
 			{3, 4, 2, 8, 6, 7, 9, 1, 5},
 			{1, 9, 7, 5, 2, 4, 6, 8, 3},
@@ -72,7 +82,7 @@ var sudoku_grids = []grid{
 	{
 		ID: "3",
 		Difficulty: "Easy",
-		Start: [][]int{
+		Start: [SUDOKU_HEIGHT][SUDOKU_WIDTH]int{
 			{0, 0, 2, 0, 0, 5, 0, 8, 7},
 			{0, 8, 5, 0, 0, 0, 4, 9, 0},
 			{0, 7, 4, 9, 2, 0, 0, 0, 0},
@@ -83,7 +93,7 @@ var sudoku_grids = []grid{
 			{0, 4, 9, 8, 3, 0, 0, 7, 5},
 			{0, 2, 7, 0, 4, 0, 6, 3, 1},
 		},
-		Solution: [][]int{
+		Solution: [SUDOKU_HEIGHT][SUDOKU_WIDTH]int{
 			{9, 6, 2, 4, 1, 5, 3, 8, 7},
 			{1, 8, 5, 7, 6, 3, 4, 9, 2},
 			{3, 7, 4, 9, 2, 8, 5, 1, 6},
@@ -144,7 +154,7 @@ func displayGrid(c *gin.Context) {
 	c.Data(http.StatusOK, "text/html; charset=utf-8", []byte(fmt.Sprintf("%s%s", start_html.String(), solved_html.String())))
 }
 
-func genGrid(grid [][]int) string {
+func genGrid(grid [SUDOKU_HEIGHT][SUDOKU_WIDTH]int) string {
 	var html strings.Builder
 
 	for row_idx := 0; row_idx < len(grid); row_idx++ {

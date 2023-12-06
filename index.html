@@ -10,17 +10,34 @@
 </head>
 <body>
   <h1>Paul's Sudoku Page!</h1>
+  <h3>Puzzle Id:</h3>
   <form>
-    <select name="grid_id" hx-get="/dgrid/:grid_id" hx-target=".sudoku_div">
-      <option id="sel_placeholder" >Select an option...</option>
+    <select name="grid_id" hx-get="/dgrid/:grid_id" hx-target=".sudoku_div" hx-swap="innerHTML">
+      <option id="id_placeholder">Select an option...</option>
       <option>1</option>
       <option>2</option>
       <option>3</option>
     </select>
   </form>
-  <p></p>
-  <div class="sudoku_div">
-    <h2>Sudoku Div</h2>
-  </div>
+  <br>
+  <h3>Techniques:</h3>
+  <select>
+    <option id="tech_placeholder">Select an option...</option>
+    <option>Last Free Cell</option>
+    <option>Last Remaining Cell</option>
+    <option>Last Possible Number</option>
+    <option>Obvious Singles</option>
+    <option>Obvious Pairs</option>
+    <option>Obvious Triples</option>
+    <option>Hidden Singles</option>
+    <option>Hidden Pairs</option>
+    <option>Hidden Triples</option>
+    <option>Pointing Pairs</option>
+    <option>Pointing Triples</option>
+    <option>X-Wing</option>
+    <option>Y-Wing (XY Wing)</option>
+    <option>Swordfish</option>
+  </select>
+  <div class="sudoku_div"></div>
 </body>
 </html>

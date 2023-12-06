@@ -11,6 +11,16 @@
     display: inline-block;
 }
 
+form, h3 {
+    display: inline-block;
+    margin: 5px;
+}
+
+select {
+    text-align: center;
+    text-align-last: center;
+}
+
 table {
     border: 5px solid black;
     border-collapse: collapse;

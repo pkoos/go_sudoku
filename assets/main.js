@@ -1,13 +1,13 @@
 function loadJavaScript() {
     htmxConfigRequest();
-    hidePlaceholder();
+    hidePlaceholder("id_placeholder");
+    hidePlaceholder("tech_placeholder");
     console.log("JavaScript should be loaded....")
 }
 
-function hidePlaceholder() {
-    var s = document.getElementById("sel_placeholder");
-    s.style.display = "none";
-
+function hidePlaceholder(name) {
+    var o = document.getElementById(name);
+    o.style.display = "none";
 }
 
 function htmxConfigRequest() {
