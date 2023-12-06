@@ -119,11 +119,19 @@ func getGridByID(c *gin.Context) {
 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "sudoku grid not found"})
 }
 
+func getHomepage(c *gin.Context) {
+	c.HTML(http.StatusOK, "index.html", gin.H{})
+}
+
 func main() {
 	router := gin.Default()
+	router.Static("/assets", "./assets")
+	router.LoadHTMLFiles("index.html")
+	router.GET("/", getHomepage)
 	router.GET("/grids", getGrids)
-	router.POST("/grids", postGrids)
 	router.GET("/grid/:id", getGridByID)
+	router.POST("/grids", postGrids)
+	
 
 	router.Run("localhost:8080")
 }

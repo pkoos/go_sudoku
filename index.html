@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sudoku</title>
+  <script src="https://unpkg.com/htmx.org@1.9.9" integrity="sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX" crossorigin="anonymous"></script>
+  <script src="/assets/main.js"></script>
+</head>
+<body>
+  <h1>Paul's Sudoku Page!</h1>
+  <form>
+    <select name="grid_id" hx-get="/grid/:grid_id" hx-target=".sudoku_div">
+      <option name="1">1</option>
+      <option name="2">2</option>
+      <option name="3">3</option>
+    </select>
+  </form>
+  <div class="sudoku_div">
+    <h2>Sudoku Div</h2></div>
+</body>
+</html>
