@@ -9,15 +9,11 @@ function htmxConfigRequest() {
     
         event.detail.path = pathWithParameters
     })
+    var s = document.getElementById("sel_placeholder");
+    s.style.display = "none";
     console.log("JavaScript should be loaded....")
 }
 
 
 
 document.addEventListener("DOMContentLoaded", htmxConfigRequest);
-
-function hideSelect() {
-    var s = document.getElementById("sel_placeholder");
-    s.style.display = "none";
-    console.log("Is hideSelect being called?");
-}
