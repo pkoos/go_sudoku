@@ -134,41 +134,38 @@ func displayGrid(c *gin.Context) {
 	// fmt.Println(sudoku_grid)
 	var start_html strings.Builder
 	start_html.WriteString("<div class=\"sudoku_grid start_grid\"><h2>Starting Grid</h2>")
+	start_html.WriteString(genGrid(sudoku_grid.Start))
+	start_html.WriteString("</div>")
+	
 	var solved_html strings.Builder
 	solved_html.WriteString("<div class=\"sudoku_grid end_grid\"><h2>Solved Grid</h2>")
-	for row_idx:= 0; row_idx < len(sudoku_grid.Start); row_idx++ {
-		if row_idx % 3 == 0 {
-			start_html.WriteString("<p></p>")
-		}
-		start_html.WriteString("<div>")
-		for col_idx := 0; col_idx < len(sudoku_grid.Start[row_idx]); col_idx++ {
-			if col_idx % 3 == 0 && col_idx != 0 {
-				start_html.WriteString("&nbsp;&nbsp;&nbsp;")
-			}
-			if sudoku_grid.Start[row_idx][col_idx] == 0 {
-				start_html.WriteString("_ ")
-			} else {
-				start_html.WriteString(fmt.Sprintf("%d ", sudoku_grid.Start[row_idx][col_idx]))
-			}
-		}
-		start_html.WriteString("</div>")
-	}
-	start_html.WriteString("</div>")
-	for row_idx := 0; row_idx < len(sudoku_grid.Solution); row_idx++ {
-		if row_idx % 3 == 0 {
-			solved_html.WriteString("<p></p>")
-		}
-		solved_html.WriteString("<div>")
-		for col_idx := 0; col_idx < len(sudoku_grid.Solution[row_idx]); col_idx++ {
-			if col_idx % 3 == 0 && col_idx != 0 {
-				solved_html.WriteString("&nbsp;&nbsp;&nbsp;")
-			}
-			solved_html.WriteString((fmt.Sprintf("%d ", sudoku_grid.Solution[row_idx][col_idx])))
-		}
-		solved_html.WriteString("</div>")
-	}
+	solved_html.WriteString(genGrid(sudoku_grid.Solution))
 	solved_html.WriteString("</div>")
+	
 	c.Data(http.StatusOK, "text/html; charset=utf-8", []byte(fmt.Sprintf("%s%s", start_html.String(), solved_html.String())))
+}
+
+func genGrid(grid [][]int) string {
+	var html strings.Builder
+	for row_idx := 0; row_idx < len(grid); row_idx++ {
+		if row_idx % 3 == 0 {
+			html.WriteString("<p></p>")
+		}
+		html.WriteString("<div>")
+		for col_idx := 0; col_idx < len(grid[row_idx]); col_idx++ {
+			if col_idx % 3 == 0 && col_idx != 0 {
+				html.WriteString("&nbsp;&nbsp;&nbsp;")
+			}
+
+			if grid[row_idx][col_idx] == 0 {
+				html.WriteString("_ ")
+			} else {
+				html.WriteString(fmt.Sprintf("%d ", grid[row_idx][col_idx]))
+			}
+		}
+		html.WriteString("</div>")
+	}
+	return html.String()
 }
 
 func getHomepage(c *gin.Context) {
