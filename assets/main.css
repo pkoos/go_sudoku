@@ -1,4 +1,46 @@
+.col_2, .col_5 {
+    border-right: 5px solid black;
+}
+
+.row_2 td, .row_5 td {
+    border-bottom: 5px solid black;
+}
+
 .sudoku_grid {
     margin: 10px;
     display: inline-block;
 }
+
+table {
+    border: 5px solid black;
+}
+
+tr {
+    border: 1px solid black;
+}
+
+td {
+    border: 1px solid black;
+    padding: 10px;
+}
+
+/* Test css, don't use these */
+
+/* .base_table {
+    display: inline-block;
+    border-collapse: collapse;
+}
+
+.base_table .r1, .base_table .r2, .base_table .r3 {
+    border-collapse: collapse;
+    border: 2px solid black;
+    padding: 0px;
+}
+
+.base_table .r1 table, .base_table .r2 table, .base_table .r3 table {
+    border-collapse: collapse;
+}
+
+.base_table .r1 table td, .base_table .r2 table td, .base_table .r3 table td {
+    border: 1px solid black;
+} */

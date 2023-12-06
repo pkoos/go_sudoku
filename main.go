@@ -131,41 +131,38 @@ func displayGrid(c *gin.Context) {
 			sudoku_grid = s_grid
 		}
 	}
-	// fmt.Println(sudoku_grid)
 	var start_html strings.Builder
-	start_html.WriteString("<div class=\"sudoku_grid start_grid\"><h2>Starting Grid</h2>")
+	start_html.WriteString("<div class=\"sudoku_grid\"><h2>Starting Grid</h2><table>")
 	start_html.WriteString(genGrid(sudoku_grid.Start))
-	start_html.WriteString("</div>")
+	start_html.WriteString("</table></div>")
 	
 	var solved_html strings.Builder
-	solved_html.WriteString("<div class=\"sudoku_grid end_grid\"><h2>Solved Grid</h2>")
+	solved_html.WriteString("<div class=\"sudoku_grid\"><h2>Solved Grid</h2><table>")
 	solved_html.WriteString(genGrid(sudoku_grid.Solution))
-	solved_html.WriteString("</div>")
+	solved_html.WriteString("</table></div>")
 	
 	c.Data(http.StatusOK, "text/html; charset=utf-8", []byte(fmt.Sprintf("%s%s", start_html.String(), solved_html.String())))
 }
 
 func genGrid(grid [][]int) string {
 	var html strings.Builder
-	for row_idx := 0; row_idx < len(grid); row_idx++ {
-		if row_idx % 3 == 0 {
-			html.WriteString("<p></p>")
-		}
-		html.WriteString("<div>")
-		for col_idx := 0; col_idx < len(grid[row_idx]); col_idx++ {
-			if col_idx % 3 == 0 && col_idx != 0 {
-				html.WriteString("&nbsp;&nbsp;&nbsp;")
-			}
 
-			if grid[row_idx][col_idx] == 0 {
-				html.WriteString("_ ")
-			} else {
-				html.WriteString(fmt.Sprintf("%d ", grid[row_idx][col_idx]))
-			}
+	for row_idx := 0; row_idx < len(grid); row_idx++ {
+		html.WriteString(fmt.Sprintf("<tr class=\"row_%d\">", row_idx))
+		for col_idx := 0; col_idx < len(grid[row_idx]); col_idx++ {
+			html.WriteString(gridValue(grid[row_idx][col_idx], col_idx))
 		}
-		html.WriteString("</div>")
+		html.WriteString("</tr>")
 	}
 	return html.String()
+}
+
+func gridValue(value int, col int) string {
+	if value == 0 {
+		return fmt.Sprintf("<td class=\"col_%d\"></td>", col) 
+	} else {
+		return fmt.Sprintf("<td class=\"col_%d\">%d</td>", col, value)
+	}
 }
 
 func getHomepage(c *gin.Context) {
@@ -176,12 +173,18 @@ func getTest(c *gin.Context) {
 	c.HTML(http.StatusOK, "test.html", gin.H{})
 }
 
+func getTest2(c *gin.Context) {
+	c.HTML(http.StatusOK, "test2.html", gin.H{})
+}
+
+
 func main() {
 	router := gin.Default()
 	router.Static("/assets", "./assets")
-	router.LoadHTMLFiles("index.html", "test.html")
+	router.LoadHTMLFiles("index.html", "test.html", "test2.html")
 	router.GET("/", getHomepage)
 	router.GET("/test", getTest)
+	router.GET("/test2", getTest2)
 	router.GET("/grids", getGrids)
 	router.GET("/grid/:id", getGridByID)
 	router.GET("/dgrid/:id", displayGrid)
