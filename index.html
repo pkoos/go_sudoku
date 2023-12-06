@@ -21,22 +21,22 @@
   </form>
   <br>
   <h3>Techniques:</h3>
-  <select>
+  <select name="tech_id" hx-get="/technique/:tech_id" hx-target=".sudoku_div" hx-swap="innerHTML">
     <option id="tech_placeholder">Select an option...</option>
-    <option>Last Free Cell</option>
-    <option>Last Remaining Cell</option>
-    <option>Last Possible Number</option>
-    <option>Obvious Singles</option>
-    <option>Obvious Pairs</option>
-    <option>Obvious Triples</option>
-    <option>Hidden Singles</option>
-    <option>Hidden Pairs</option>
-    <option>Hidden Triples</option>
-    <option>Pointing Pairs</option>
-    <option>Pointing Triples</option>
-    <option>X-Wing</option>
-    <option>Y-Wing (XY Wing)</option>
-    <option>Swordfish</option>
+    <option value="1">Last Free Cell</option>
+    <option value="2">Last Remaining Cell</option>
+    <option value="3">Last Possible Number</option>
+    <option value="4">Obvious Singles</option>
+    <option value="5">Obvious Pairs</option>
+    <option value="6">Obvious Triples</option>
+    <option value="7">Hidden Singles</option>
+    <option value="8">Hidden Pairs</option>
+    <option value="9">Hidden Triples</option>
+    <option value="10">Pointing Pairs</option>
+    <option value="11">Pointing Triples</option>
+    <option value="12">X-Wing</option>
+    <option value="13">Y-Wing (XY Wing)</option>
+    <option value="14">Swordfish</option>
   </select>
   <div class="sudoku_div"></div>
 </body>

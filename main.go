@@ -21,10 +21,81 @@ type technique struct {
 	Steps [][SUDOKU_HEIGHT][SUDOKU_WIDTH]int `json:"steps"`
 }
 
-const SUDOKU_HEIGHT = 9;
-const SUDOKU_WIDTH = 9;
+const SUDOKU_HEIGHT = 9
+const SUDOKU_WIDTH = 9
 
-var techniques []technique
+var techniques = []technique{
+	{
+		ID: "1",
+		Name: "Last Free Cell",
+		Steps: [][SUDOKU_HEIGHT][SUDOKU_WIDTH]int{{{}}},
+	},
+	{
+		ID: "2",
+		Name: "Last Remaining Cell",
+		Steps: [][SUDOKU_HEIGHT][SUDOKU_WIDTH]int{{{}}},
+	},
+	{
+		ID: "3",
+		Name: "Last Possible Number",
+		Steps: [][SUDOKU_HEIGHT][SUDOKU_WIDTH]int{{{}}},
+	},
+	{
+		ID: "4",
+		Name: "Obvious Singles",
+		Steps: [][SUDOKU_HEIGHT][SUDOKU_WIDTH]int{{{}}},
+	},
+	{
+		ID: "5",
+		Name: "Obvious Pairs",
+		Steps: [][SUDOKU_HEIGHT][SUDOKU_WIDTH]int{{{}}},
+	},
+	{
+		ID: "6",
+		Name: "Obvious Triples",
+		Steps: [][SUDOKU_HEIGHT][SUDOKU_WIDTH]int{{{}}},
+	},
+	{
+		ID: "7",
+		Name: "Hidden Singles",
+		Steps: [][SUDOKU_HEIGHT][SUDOKU_WIDTH]int{{{}}},
+	},
+	{
+		ID: "8",
+		Name: "Hidden Pairs",
+		Steps: [][SUDOKU_HEIGHT][SUDOKU_WIDTH]int{{{}}},
+	},
+	{
+		ID: "9",
+		Name: "Hidden Triples",
+		Steps: [][SUDOKU_HEIGHT][SUDOKU_WIDTH]int{{{}}},
+	},
+	{
+		ID: "10",
+		Name: "Pointing Pairs",
+		Steps: [][SUDOKU_HEIGHT][SUDOKU_WIDTH]int{{{}}},
+	},
+	{
+		ID: "11",
+		Name: "Pointing Triples",
+		Steps: [][SUDOKU_HEIGHT][SUDOKU_WIDTH]int{{{}}},
+	},
+	{
+		ID: "12",
+		Name: "X-Wing",
+		Steps: [][SUDOKU_HEIGHT][SUDOKU_WIDTH]int{{{}}},
+	},
+	{
+		ID: "13",
+		Name: "Y-Wing (XY Wing)",
+		Steps: [][SUDOKU_HEIGHT][SUDOKU_WIDTH]int{{{}}},
+	},
+	{
+		ID: "14",
+		Name: "Swordfish",
+		Steps: [][SUDOKU_HEIGHT][SUDOKU_WIDTH]int{{{}}},
+	},
+}
 
 var sudoku_grids = []grid{
 	{
@@ -187,6 +258,17 @@ func getTest2(c *gin.Context) {
 	c.HTML(http.StatusOK, "test2.html", gin.H{})
 }
 
+func displayTechnique(c *gin.Context) {
+	id := c.Param("id")
+	var tech technique
+	for _, a := range techniques {
+		if a.ID == id {
+			tech = a
+		}
+	}
+	c.IndentedJSON(http.StatusOK, tech)
+	// c.IndentedJSON(http.StatusNotImplemented, gin.H{"error": "function is not implemented yet..."})
+}
 
 func main() {
 	router := gin.Default()
@@ -198,6 +280,7 @@ func main() {
 	router.GET("/grids", getGrids)
 	router.GET("/grid/:id", getGridByID)
 	router.GET("/dgrid/:id", displayGrid)
+	router.GET("/technique/:id", displayTechnique)
 	router.POST("/grids", postGrids)
 	
 
