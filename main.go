@@ -1,7 +1,11 @@
 package main
 
 import (
+	"fmt"
+	// "text/template"
 	"net/http"
+	"strings"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -119,17 +123,71 @@ func getGridByID(c *gin.Context) {
 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "sudoku grid not found"})
 }
 
+func displayGrid(c *gin.Context) {
+	id := c.Param("id")
+	var sudoku_grid grid
+	for _, s_grid := range sudoku_grids {
+		if s_grid.ID == id {
+			sudoku_grid = s_grid
+		}
+	}
+	// fmt.Println(sudoku_grid)
+	var start_html strings.Builder
+	start_html.WriteString("<div class=\"sudoku_grid start_grid\"><h2>Starting Grid</h2>")
+	var solved_html strings.Builder
+	solved_html.WriteString("<div class=\"sudoku_grid end_grid\"><h2>Solved Grid</h2>")
+	for row_idx:= 0; row_idx < len(sudoku_grid.Start); row_idx++ {
+		if row_idx % 3 == 0 {
+			start_html.WriteString("<p></p>")
+		}
+		start_html.WriteString("<div>")
+		for col_idx := 0; col_idx < len(sudoku_grid.Start[row_idx]); col_idx++ {
+			if col_idx % 3 == 0 && col_idx != 0 {
+				start_html.WriteString("&nbsp;&nbsp;&nbsp;")
+			}
+			if sudoku_grid.Start[row_idx][col_idx] == 0 {
+				start_html.WriteString("_ ")
+			} else {
+				start_html.WriteString(fmt.Sprintf("%d ", sudoku_grid.Start[row_idx][col_idx]))
+			}
+		}
+		start_html.WriteString("</div>")
+	}
+	start_html.WriteString("</div>")
+	for row_idx := 0; row_idx < len(sudoku_grid.Solution); row_idx++ {
+		if row_idx % 3 == 0 {
+			solved_html.WriteString("<p></p>")
+		}
+		solved_html.WriteString("<div>")
+		for col_idx := 0; col_idx < len(sudoku_grid.Solution[row_idx]); col_idx++ {
+			if col_idx % 3 == 0 && col_idx != 0 {
+				solved_html.WriteString("&nbsp;&nbsp;&nbsp;")
+			}
+			solved_html.WriteString((fmt.Sprintf("%d ", sudoku_grid.Solution[row_idx][col_idx])))
+		}
+		solved_html.WriteString("</div>")
+	}
+	solved_html.WriteString("</div>")
+	c.Data(http.StatusOK, "text/html; charset=utf-8", []byte(fmt.Sprintf("%s%s", start_html.String(), solved_html.String())))
+}
+
 func getHomepage(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.html", gin.H{})
+}
+
+func getTest(c *gin.Context) {
+	c.HTML(http.StatusOK, "test.html", gin.H{})
 }
 
 func main() {
 	router := gin.Default()
 	router.Static("/assets", "./assets")
-	router.LoadHTMLFiles("index.html")
+	router.LoadHTMLFiles("index.html", "test.html")
 	router.GET("/", getHomepage)
+	router.GET("/test", getTest)
 	router.GET("/grids", getGrids)
 	router.GET("/grid/:id", getGridByID)
+	router.GET("/dgrid/:id", displayGrid)
 	router.POST("/grids", postGrids)
 	
 

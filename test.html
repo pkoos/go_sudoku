@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/assets/main.css">
+  <script src="https://unpkg.com/htmx.org@1.9.9" integrity="sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX" crossorigin="anonymous"></script>
+  <script src="/assets/main.js"></script>
+  <title>Test document</title>
+</head>
+<body>
+  <h1>Test Document!!!!</h1>
+  <h1>Before any server-side processing</h1>
+  <div class="sudoku_grid">
+    <h2>Starting Grid</h2>
+    <div>_ 3 _&nbsp;&nbsp; 7 _ 6&nbsp;&nbsp; _ 8 _</div>
+    <div>_ _ 6&nbsp;&nbsp; 3 _ _&nbsp;&nbsp; 2 _ 7</div>
+    <div>_ _ 8&nbsp;&nbsp; _ _ _&nbsp;&nbsp; 6 _ 3</div>
+    <p></p>
+    <div>_ 9 _&nbsp;&nbsp; _ 7 _&nbsp;&nbsp; 6 _ 3</div>
+    <div>8 1 _&nbsp;&nbsp; _ 6 _&nbsp;&nbsp; _ 4 5</div>
+    <div>3 _ 7&nbsp;&nbsp; 8 4 _&nbsp;&nbsp; 1 9 _</div>
+    <p></p>
+    <div>_ _ _&nbsp;&nbsp; _ 5 4&nbsp;&nbsp; 3 7 _</div>
+    <div>5 8 _&nbsp;&nbsp; _ 3 _&nbsp;&nbsp; _ 2 9</div>
+    <div>_ _ _&nbsp;&nbsp; 2 8 _&nbsp;&nbsp; 5 _ _</div>
+  </div>
+  <div class="sudoku_grid">
+    <h2>Solved Grid</h2>
+    <div>1 3 5&nbsp;&nbsp; 7 2 6&nbsp;&nbsp; 9 8 4</div>
+    <div>9 4 6&nbsp;&nbsp; 3 1 8&nbsp;&nbsp; 2 5 7</div>
+    <div>7 2 8&nbsp;&nbsp; 4 9 5&nbsp;&nbsp; 6 1 3</div>
+    <p></p>
+    <div>6 9 4&nbsp;&nbsp; 5 7 1&nbsp;&nbsp; 6 1 3</div>
+    <div>8 1 2&nbsp;&nbsp; 9 6 3&nbsp;&nbsp; 7 4 5</div>
+    <div>3 5 7&nbsp;&nbsp; 8 4 2&nbsp;&nbsp; 1 9 6</div>
+    <p></p>
+    <div>2 6 9&nbsp;&nbsp; 1 5 4&nbsp;&nbsp; 3 7 8</div>
+    <div>5 8 1&nbsp;&nbsp; 6 3 7&nbsp;&nbsp; 4 2 9</div>
+    <div>4 7 3&nbsp;&nbsp; 2 8 9&nbsp;&nbsp; 5 6 1</div>
+  </div>
+  <h1>Server-generated Sudoku Grids</h1>
+  <form>
+    <select name="grid_id" hx-get="/dgrid/:grid_id" hx-target=".sudoku_div">
+      <option id="sel_placeholder">Select an option...</option>
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+    </select>
+  </form>
+  <div class="sudoku_div">
+    <h2>Server-Side Grid</h2>
+  </div>
+</body>
+</html>

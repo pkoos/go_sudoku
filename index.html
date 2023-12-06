@@ -11,7 +11,7 @@
 <body>
   <h1>Paul's Sudoku Page!</h1>
   <form>
-    <select name="grid_id" hx-get="/grid/:grid_id" hx-target=".sudoku_div">
+    <select name="grid_id" hx-get="/dgrid/:grid_id" hx-target=".sudoku_div">
       <option id="sel_placeholder" >Select an option...</option>
       <option>1</option>
       <option>2</option>
@@ -22,5 +22,12 @@
   <div class="sudoku_div">
     <h2>Sudoku Div</h2>
   </div>
+  <div class="sudoku_starting">
+    <h2>Starting Grid</h2>
+  </div>
+  <div class="sudoku_solved">
+    <h2>Solved Grid</h2>
+  </div>
+
 </body>
 </html>
